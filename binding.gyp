@@ -1,0 +1,6 @@
+{
+    "variables": {},
+    "includes": [],
+    "targets": [],
+    "conditions": []
+}
