@@ -4,14 +4,17 @@
     "targets": [
         {
             "target_name": "tasks_addon",
-            "type": "<(library)",
+            "type": "static_library",
             "dependencies": [ "tasks_lib", "<!(node -p \"require('node-addon-api').gyp\")" ],
             "include_dirs": [
                 "<!@(node -p \"require('node-addon-api').include\")",
                 "src/addon"
             ],
             "sources": [
-                "src/addon/addon.cpp"
+                # adds all .hpp/.cpp files directly under the './src/addon' directory
+                "<!@(node -p \"require('fs').readdirSync('./src/addon').filter(p => p.endsWith('.cpp') || p.endsWith('.hpp')).map(p => 'src/addon/'+ p).join(' ')\")"
+                # adds all .hpp/.cpp files directly under the './src/addon/include' directory
+                "<!@(node -p \"require('fs').readdirSync('./src/addon/include').filter(p => p.endsWith('.cpp') || p.endsWith('.hpp')).map(p => 'src/addon/include/'+ p).join(' ')\")"
             ]
         },
         {
@@ -26,8 +29,10 @@
                 ]
             },
             "sources": [
-                "src/tasks/task.cpp",
-                "src/tasks/tasks_list.cpp"
+                # adds all .hpp/.cpp files directly under the './src/tasks' directory
+                "<!@(node -p \"require('fs').readdirSync('./src/tasks').filter(p => p.endsWith('.cpp') || p.endsWith('.hpp')).map(p => 'src/tasks/'+ p).join(' ')\")",
+                # adds all .hpp/.cpp files directly under the './src/tasks' directory
+                "<!@(node -p \"require('fs').readdirSync('./src/tasks/include').filter(p => p.endsWith('.cpp') || p.endsWith('.hpp')).map(p => 'src/tasks/include/'+ p).join(' ')\")"
             ]
         }
         ],
