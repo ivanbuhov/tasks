@@ -9,6 +9,6 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "todo": "file:../../tasks_addon"
+    "tasks": "file:../../tasks_addon"
   }
 }
