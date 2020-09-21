@@ -1,5 +1,5 @@
 {
-  "name": "todo",
+  "name": "tasks",
   "version": "1.0.0",
   "description": "Native node addon for storing and manipulating TODO lists.",
   "main": "src/js/index.js",

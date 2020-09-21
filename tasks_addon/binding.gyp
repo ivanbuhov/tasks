@@ -4,7 +4,6 @@
     "targets": [
         {
             "target_name": "tasks_addon",
-            "type": "static_library",
             "dependencies": [ "tasks_lib", "<!(node -p \"require('node-addon-api').gyp\")" ],
             "include_dirs": [
                 "<!@(node -p \"require('node-addon-api').include\")",
@@ -15,7 +14,8 @@
                 "<!@(node -p \"require('fs').readdirSync('./src/addon').filter(p => p.endsWith('.cpp') || p.endsWith('.hpp')).map(p => 'src/addon/'+ p).join(' ')\")"
                 # adds all .hpp/.cpp files directly under the './src/addon/include' directory
                 "<!@(node -p \"require('fs').readdirSync('./src/addon/include').filter(p => p.endsWith('.cpp') || p.endsWith('.hpp')).map(p => 'src/addon/include/'+ p).join(' ')\")"
-            ]
+            ],
+            "defines": ['NAPI_CPP_EXCEPTIONS']
         },
         {
             "target_name": "tasks_lib",

@@ -1,0 +1,14 @@
+{
+  "name": "tasksapp",
+  "version": "1.0.0",
+  "description": "Simple console tasks application utilizing the native addon functionality.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "todo": "file:../../tasks_addon"
+  }
+}
