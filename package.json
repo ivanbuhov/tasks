@@ -2,8 +2,10 @@
   "name": "todo",
   "version": "1.0.0",
   "description": "Native node addon for storing and manipulating TODO lists.",
-  "main": "index.js",
+  "main": "src/js/index.js",
   "scripts": {
+    "build": "node-gyp rebuild",
+    "clean": "node-gyp clean",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Ivan Buhov",
