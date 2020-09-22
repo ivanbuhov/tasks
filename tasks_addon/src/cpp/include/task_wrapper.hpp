@@ -13,6 +13,9 @@ class TaskWrapper : public Napi::ObjectWrap<TaskWrapper> {
 public:
     static Napi::Function buildConstructor(Napi::Env);
 
+    // TODO: Bad. Avoid storing static state. This way the addon will not work properly in more than one VM.
+    static Napi::FunctionReference constructorRef;
+
     TaskWrapper(const Napi::CallbackInfo& info);
 
     Napi::Value getTitle(const Napi::CallbackInfo& info);
@@ -28,6 +31,6 @@ public:
     Napi::Value toJSON(const Napi::CallbackInfo& info);
 
 private:
-    unique_ptr<Task> m_task;
+    Task m_task;
 };
 }

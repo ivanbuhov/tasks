@@ -15,7 +15,7 @@ Napi::Function TaskWrapper::buildConstructor(Napi::Env env) {
         TaskWrapper::InstanceMethod("toJSON", &TaskWrapper::toJSON)
     });
 
-    Napi::FunctionReference constructorRef = Napi::Persistent(constructor);
+    constructorRef = Napi::Persistent(constructor);
     constructorRef.SuppressDestruct();
     return constructor;
 }
@@ -59,11 +59,11 @@ TaskWrapper::TaskWrapper(const Napi::CallbackInfo& info) : ObjectWrap(info) {
     }
 
     // Create the underlying native object by calling its constructor
-    m_task = make_unique<Task>(title, details, isCompleted);
+    m_task = Task(title, details, isCompleted);
 }
 
 Napi::Value TaskWrapper::getTitle(const Napi::CallbackInfo& info) {
-    return Napi::String::New(info.Env(), m_task->getTitle().c_str());
+    return Napi::String::New(info.Env(), m_task.getTitle().c_str());
 }
 
 void TaskWrapper::setTitle(const Napi::CallbackInfo& info, const Napi::Value& value) {
@@ -72,11 +72,11 @@ void TaskWrapper::setTitle(const Napi::CallbackInfo& info, const Napi::Value& va
         return;
     }
 
-    m_task->setTitle(value.As<Napi::String>().Utf8Value());
+    m_task.setTitle(value.As<Napi::String>().Utf8Value());
 }
 
 Napi::Value TaskWrapper::getDetails(const Napi::CallbackInfo& info) {
-    return Napi::String::New(info.Env(), m_task->getDetails().c_str());
+    return Napi::String::New(info.Env(), m_task.getDetails().c_str());
 }
 
 void TaskWrapper::setDetails(const Napi::CallbackInfo& info, const Napi::Value& value) {
@@ -85,11 +85,11 @@ void TaskWrapper::setDetails(const Napi::CallbackInfo& info, const Napi::Value& 
         return;
     }
 
-    m_task->setDetails(value.As<Napi::String>().Utf8Value());
+    m_task.setDetails(value.As<Napi::String>().Utf8Value());
 }
 
 Napi::Value TaskWrapper::isCompleted(const Napi::CallbackInfo& info) {
-    return Napi::Boolean::New(info.Env(), m_task->isCompleted());
+    return Napi::Boolean::New(info.Env(), m_task.isCompleted());
 }
 
 void TaskWrapper::setIsCompleted(const Napi::CallbackInfo& info, const Napi::Value& value) {
@@ -98,17 +98,17 @@ void TaskWrapper::setIsCompleted(const Napi::CallbackInfo& info, const Napi::Val
         return;
     }
 
-    m_task->setIsCompleted(value.As<Napi::Boolean>().Value());
+    m_task.setIsCompleted(value.As<Napi::Boolean>().Value());
 }
 
 Napi::Value TaskWrapper::toString(const Napi::CallbackInfo& info) {
     std::ostringstream result;
-    result << (m_task->isCompleted() ? "[#] " : "[ ] ") << m_task->getTitle() << " (";
+    result << (m_task.isCompleted() ? "[#] " : "[ ] ") << m_task.getTitle() << " (";
     // If the details are too long, strip it to the 30th character
-    if (m_task->getDetails().size() > 30) {
-        result <<  m_task->getDetails().substr(0, 30) << "...";
+    if (m_task.getDetails().size() > 30) {
+        result <<  m_task.getDetails().substr(0, 30) << "...";
     } else {
-        result << m_task->getDetails();
+        result << m_task.getDetails();
     }
     result << ")";
 
