@@ -7,21 +7,24 @@ tasks.TasksList.prototype.saveTo = function(filePath) {
 };
 
 tasks.TasksList.prototype.loadFrom = function(filePath) {
-    let tasksJson = JSON.parse(fs.readFileSync(filePath));
-
-    for (let i = 0; i < tasksJson.length; i++) {
-        this.add(new tasks.Task(tasksJson[i].title, tasksJson[i].details, tasksJson[i].isCompleted));
-    }
+    try {
+        let tasksJson = JSON.parse(fs.readFileSync(filePath));
+        for (let i = 0; i < tasksJson.length; i++) {
+            this.add(new tasks.Task(tasksJson[i].title, tasksJson[i].details, tasksJson[i].isCompleted));
+        }
+    } catch (err) {}
 };
 
-//TODO: Figure out why the native implementation of toJSON is not working and once fixed - remove this one.
-tasks.TasksList.prototype.toJSON = function() {
-    let tasksArray = [];
+tasks.TasksList.prototype.toArray = function(filePath) {let tasksArray = [];
     for (let i = 0; i < this.length; i++) {
         tasksArray.push(this.at(i));
     }
 
     return tasksArray;
+};
+//TODO: Figure out why the native implementation of toJSON is not working and once fixed - remove this one.
+tasks.TasksList.prototype.toJSON = function() {
+    return this.toArray();
 };
 
 module.exports = tasks;
