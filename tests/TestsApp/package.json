@@ -1,0 +1,17 @@
+{
+  "name": "testsapp",
+  "version": "1.0.0",
+  "description": "NodeJS tests for test_addon package",
+  "main": "test.js",
+  "scripts": {
+    "test": "mocha"
+  },
+  "author": "Ivan Buhov",
+  "license": "ISC",
+  "dependencies": {
+    "tasks": "file:../../tasks_addon"
+  },
+  "devDependencies": {
+    "mocha": "^8.1.3"
+  }
+}
