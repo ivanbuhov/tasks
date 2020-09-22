@@ -25,6 +25,7 @@ public:
     void setIsCompleted(const Napi::CallbackInfo& info, const Napi::Value& value);
     
     Napi::Value toString(const Napi::CallbackInfo& info);
+    Napi::Value toJSON(const Napi::CallbackInfo& info);
 
 private:
     unique_ptr<Task> m_task;

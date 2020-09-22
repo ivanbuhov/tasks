@@ -5,14 +5,19 @@
 namespace tasks_addon {
 
 Napi::Function TaskWrapper::buildConstructor(Napi::Env env) {
-    return DefineClass(env, "Task", {
+    Napi::Function constructor = DefineClass(env, "Task", {
         // Properties
-        TaskWrapper::InstanceAccessor("title", &TaskWrapper::getTitle, &TaskWrapper::setTitle, napi_property_attributes::napi_default, nullptr),
-        TaskWrapper::InstanceAccessor("details", &TaskWrapper::getDetails, &TaskWrapper::setDetails, napi_property_attributes::napi_default, nullptr),
-        TaskWrapper::InstanceAccessor("isCompleted", &TaskWrapper::isCompleted, &TaskWrapper::setIsCompleted, napi_property_attributes::napi_default, nullptr),
+        TaskWrapper::InstanceAccessor("title", &TaskWrapper::getTitle, &TaskWrapper::setTitle, napi_default, nullptr),
+        TaskWrapper::InstanceAccessor("details", &TaskWrapper::getDetails, &TaskWrapper::setDetails, napi_default, nullptr),
+        TaskWrapper::InstanceAccessor("isCompleted", &TaskWrapper::isCompleted, &TaskWrapper::setIsCompleted, napi_default, nullptr),
         // Methods
-        TaskWrapper::InstanceMethod("toString", &TaskWrapper::toString)
-        });
+        TaskWrapper::InstanceMethod("toString", &TaskWrapper::toString),
+        TaskWrapper::InstanceMethod("toJSON", &TaskWrapper::toJSON)
+    });
+
+    Napi::FunctionReference constructorRef = Napi::Persistent(constructor);
+    constructorRef.SuppressDestruct();
+    return constructor;
 }
 
 TaskWrapper::TaskWrapper(const Napi::CallbackInfo& info) : ObjectWrap(info) {
@@ -108,6 +113,16 @@ Napi::Value TaskWrapper::toString(const Napi::CallbackInfo& info) {
     result << ")";
 
     return Napi::String::New(info.Env(), result.str());
+}
+
+Napi::Value TaskWrapper::toJSON(const Napi::CallbackInfo& info) {
+    Napi::Object obj = Napi::Object::New(info.Env());
+    // TODO: Not a good idea to pass the same CallbackInfo to other JS native methods. 
+    // Instead make underlying getter methods which are only dependent on the Env object and use them, passing only info.Env().
+    obj.Set("title", getTitle(info));
+    obj.Set("details", getDetails(info));
+    obj.Set("isCompleted", isCompleted(info));
+    return obj;
 }
 
 }
