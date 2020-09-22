@@ -1,9 +1,11 @@
 #include <napi.h>
 
-namespace addon {
+#include "include/task_wrapper.hpp"
+
+namespace tasks_addon {
 
 Napi::Object init(Napi::Env env, Napi::Object exports) {
-	exports.Set("hello", Napi::String::New(env, "world"));
+	exports.Set("Task", TaskWrapper::buildConstructor(env));
 	return exports;
 }
 

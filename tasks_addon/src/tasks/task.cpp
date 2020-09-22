@@ -2,15 +2,10 @@
 
 namespace tasks {
 
-Task::Task(const string& title, const string& details, const tm* datetime, bool completed) :
+Task::Task(const string& title, const string& details, bool completed) :
 	m_title(title),
 	m_details(details),
 	m_completed(completed) {
-
-	m_hasDatetime = (datetime != nullptr);
-	if (m_hasDatetime) {
-		m_datetime = *datetime;
-	}
 }
 
 const std::string& Task::getTitle() const {
@@ -36,20 +31,4 @@ bool Task::isCompleted() const {
 void Task::setIsCompleted(bool isCompleted) {
 	m_completed = isCompleted;
 }
-
-const std::tm* Task::getDatetime() const {
-	return m_hasDatetime ? &m_datetime : nullptr;
-}
-
-void Task::setDatetime(const std::tm* datetime) {
-	m_hasDatetime = (datetime != nullptr);
-	if (m_hasDatetime) {
-		m_datetime = *datetime;
-	}
-}
-
-bool Task::hasDatetime() const {
-	return m_hasDatetime;
-}
-
 }
