@@ -83,7 +83,7 @@ void TasksListWrapper::swap(const Napi::CallbackInfo& info) {
     size_t index2 = info[1].As<Napi::Number>().Int64Value();
 
     if (index1 >= m_tasksList.size() || index2 >= m_tasksList.size()) {
-        Napi::TypeError::New(info.Env(), "Invalid indexes.").ThrowAsJavaScriptException();
+        Napi::TypeError::New(info.Env(), "Invalid indices.").ThrowAsJavaScriptException();
         return;
     }
 

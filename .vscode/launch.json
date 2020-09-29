@@ -5,13 +5,31 @@
     "version": "0.2.0",
     "configurations": [
         {
+            "name": "TasksApp",
             "type": "node",
             "request": "launch",
-            "name": "TasksApp",
             "skipFiles": [
                 "<node_internals>/**"
             ],
+            "console": "externalTerminal",
             "program": "${workspaceFolder}\\examples\\TasksApp\\index.js"
-        }
+        },
+        {
+            "name": "TestsApp",
+            "type": "node",
+            "request": "launch",
+            "program": "${workspaceFolder}\\tests\\TestsApp\\node_modules\\mocha\\bin\\_mocha",
+            "args": [
+                "--timeout",
+                "999999",
+                "--colors",
+                "${workspaceFolder}\\tests\\TestsApp\\test"
+      
+            ],
+            "internalConsoleOptions": "openOnSessionStart",
+            "skipFiles": [
+              "<node_internals>/**"
+            ]
+          },
     ]
 }

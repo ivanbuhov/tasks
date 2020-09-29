@@ -1,5 +1,5 @@
 let fs = require("fs");
-let tasks = require('../../build/Release/tasks_addon');
+let tasks = require('../../build/Debug/tasks_addon');
 
 // TODO: Async version of loadFrom/saveTo are nice to have
 tasks.TasksList.prototype.saveTo = function(filePath) {
@@ -15,7 +15,8 @@ tasks.TasksList.prototype.loadFrom = function(filePath) {
     } catch (err) {}
 };
 
-tasks.TasksList.prototype.toArray = function(filePath) {let tasksArray = [];
+tasks.TasksList.prototype.toArray = function(filePath) {
+    let tasksArray = [];
     for (let i = 0; i < this.length; i++) {
         tasksArray.push(this.at(i));
     }
